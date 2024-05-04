@@ -142,9 +142,9 @@ class Imagem:
      return imagem_focada
         
     #Função para dar nitidez a uma imagem utilizando a subtração da imagem original pela imagem borrada (subtração explicita)  
-    def focada_subt_explicita(self, caminho_arquivo):
+    def focada_subt_explicita(self, caminho_arquivo,tamanho_kernel):
         
-        imagem_borrada = Imagem.carregar(caminho_arquivo).borrada(3)
+        imagem_borrada = Imagem.carregar(caminho_arquivo).borrada(tamanho_kernel)
         imagem_focada = Imagem.nova(self.largura, self.altura)
         
         for y in range(self.altura):

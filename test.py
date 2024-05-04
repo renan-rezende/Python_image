@@ -96,12 +96,12 @@ class TestInvertida(unittest.TestCase):
             caminho_arquivo = 'test_images/mushroom.png'
             imagem_entrada = pset1.Imagem.carregar(caminho_arquivo)
             imagem_copia = pset1.Imagem(imagem_entrada.largura, imagem_entrada.altura,imagem_entrada.pixels)
-            
-            imagem_focada = imagem_copia.focada_subt_explicita(caminho_arquivo)
-            imamgem_borrada = imagem_copia.borrada(3)
+            tamanho_kernel = 6
+            imagem_focada = imagem_copia.focada_subt_explicita(caminho_arquivo,tamanho_kernel)
+            imamgem_borrada = imagem_copia.borrada(tamanho_kernel)
             
             imamgem_borrada.salvar("mushroon_borrada.png", modo="PNG")
-            imagem_focada.salvar("mushroon_focada.png", modo="PNG")
+            imagem_focada.salvar("mushroon_focada6.png", modo="PNG")
             
         def test_focada_kernel_3x3(self):
             caminho_arquivo = 'test_images/mushroom.png'
