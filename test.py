@@ -112,9 +112,15 @@ class TestInvertida(unittest.TestCase):
             imamgem_borrada = imagem_copia.borrada(3)
             
             imamgem_borrada.salvar("mushroon_borrada.png", modo="PNG")
-            imagem_focada.salvar("mushroon_focada.png", modo="PNG")
+            imagem_focada.salvar("mushroon_focada11.png", modo="PNG")
       
-        
+        def test_borda(self):
+            caminho_arquivo = 'test_images/construct.png'
+            imagem_entrada = pset1.Imagem.carregar(caminho_arquivo)
+            imagem_copia = pset1.Imagem(imagem_entrada.largura, imagem_entrada.altura,imagem_entrada.pixels)
+            
+            imagem_com_bordas = imagem_copia.borda()
+            imagem_com_bordas.salvar("construct_com_borda.png", modo="PNG")
         
         def test_borradas(self):
             for tamanho_kernel in (1, 3, 7):
@@ -132,35 +138,35 @@ class TestInvertida(unittest.TestCase):
                                         "Cuidado para não modificar a imagem original!")
                         self.assertEqual(resultado,  esperado)
 
-    def test_focada(self):
-        for tamanho_kernel in (1, 3, 9):
+        def test_focada(self):
+            for tamanho_kernel in (1, 3, 9):
+                for nome_arquivo in ('mushroom', 'twocats', 'chess'):
+                    with self.subTest(k=tamanho_kernel, f=nome_arquivo):
+                        arquivo_entrada = os.path.join(TEST_DIRECTORY, 'test_images', '%s.png' % nome_arquivo)
+                        arquivo_saida = os.path.join(TEST_DIRECTORY, 'test_results',
+                                                    '%s_sharp_%02d.png' % (nome_arquivo, tamanho_kernel))
+                        imagem_entrada = pset1.Imagem.carregar(arquivo_entrada)
+                        imagem_entrada_copia = pset1.Imagem(imagem_entrada.largura, imagem_entrada.altura,
+                                                            imagem_entrada.pixels)
+                        resultado = imagem_entrada.focada(tamanho_kernel)
+                        esperado = pset1.Imagem.carregar(arquivo_saida)
+                        self.assertEqual(imagem_entrada, imagem_entrada_copia,
+                                        "Cuidado para não modificar a imagem original!")
+                        self.assertEqual(resultado,  esperado)
+
+        def test_bordas(self):
             for nome_arquivo in ('mushroom', 'twocats', 'chess'):
-                with self.subTest(k=tamanho_kernel, f=nome_arquivo):
+                with self.subTest(f=nome_arquivo):
                     arquivo_entrada = os.path.join(TEST_DIRECTORY, 'test_images', '%s.png' % nome_arquivo)
-                    arquivo_saida = os.path.join(TEST_DIRECTORY, 'test_results',
-                                                 '%s_sharp_%02d.png' % (nome_arquivo, tamanho_kernel))
+                    arquivo_saida = os.path.join(TEST_DIRECTORY, 'test_results', '%s_edges.png' % nome_arquivo)
                     imagem_entrada = pset1.Imagem.carregar(arquivo_entrada)
                     imagem_entrada_copia = pset1.Imagem(imagem_entrada.largura, imagem_entrada.altura,
                                                         imagem_entrada.pixels)
-                    resultado = imagem_entrada.focada(tamanho_kernel)
+                    resultado = imagem_entrada.bordas()
                     esperado = pset1.Imagem.carregar(arquivo_saida)
                     self.assertEqual(imagem_entrada, imagem_entrada_copia,
-                                     "Cuidado para não modificar a imagem original!")
+                                    "Cuidado para não modificar a imagem original!")
                     self.assertEqual(resultado,  esperado)
-
-    def test_bordas(self):
-        for nome_arquivo in ('mushroom', 'twocats', 'chess'):
-            with self.subTest(f=nome_arquivo):
-                arquivo_entrada = os.path.join(TEST_DIRECTORY, 'test_images', '%s.png' % nome_arquivo)
-                arquivo_saida = os.path.join(TEST_DIRECTORY, 'test_results', '%s_edges.png' % nome_arquivo)
-                imagem_entrada = pset1.Imagem.carregar(arquivo_entrada)
-                imagem_entrada_copia = pset1.Imagem(imagem_entrada.largura, imagem_entrada.altura,
-                                                    imagem_entrada.pixels)
-                resultado = imagem_entrada.bordas()
-                esperado = pset1.Imagem.carregar(arquivo_saida)
-                self.assertEqual(imagem_entrada, imagem_entrada_copia,
-                                 "Cuidado para não modificar a imagem original!")
-                self.assertEqual(resultado,  esperado)
 
 
 if __name__ == '__main__':

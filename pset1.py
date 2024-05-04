@@ -110,12 +110,13 @@ class Imagem:
     
      return resultado
     
+    #Função para dar nitidez a uma imagem utilizando um Kernel 3x3
     def focada_kernel_3x3(self):
      kernel_nitidez = [
-     [-1, -1, -1],
-     [-1, 17, -1],
-     [-1, -1, -1]
-]
+                       [-1, -1, -1],
+                       [-1, 17, -1],
+                       [-1, -1, -1]
+                      ] 
 
      # Cria uma imagem nova para armazenar o resultado do filtro
      imagem_focada = Imagem.nova(self.largura, self.altura)
@@ -130,7 +131,6 @@ class Imagem:
                      # Obtém o valor do pixel na vizinhança
                      pixel_vizinho = self.get_pixel(x+i + (-1), y+j + (-1))
                      valor_pixel = pixel_vizinho * kernel_nitidez[j][i]
-                     
                      soma += valor_pixel
             
              # Calcula a média dos valores dos pixels na vizinhança
@@ -141,7 +141,7 @@ class Imagem:
     
      return imagem_focada
         
-        
+    #Função para dar nitidez a uma imagem utilizando a subtração da imagem original pela imagem borrada (subtração explicita)  
     def focada_subt_explicita(self, caminho_arquivo):
         
         imagem_borrada = Imagem.carregar(caminho_arquivo).borrada(3)
@@ -153,9 +153,45 @@ class Imagem:
               imagem_focada.set_pixel(x,y,round(2*self.get_pixel(x,y) - imagem_borrada.get_pixel(x,y)))
               
         return imagem_focada
-    
-    def bordas(self):
-        raise NotImplementedError
+
+    def borda(self):
+        kernel_kx = [    
+            [-1, 0, 1],
+            [-2, 0, 2],
+            [-1, 0, 1]
+        ]
+        kernel_ky = [    
+            [-1, -2, -1],
+            [0, 0, 0],
+            [1, 2, 1]
+        ]
+
+        # Cria uma imagem nova para armazenar o resultado do filtro
+        imagem_borda = Imagem.nova(self.largura, self.altura)
+        
+        # Percorre todos os pixels da imagem de entrada
+        for y in range(self.altura):
+            for x in range(self.largura):
+                soma_kx = 0.0
+                soma_ky = 0.0
+                # Percorre a vizinhança do pixel atual definida pelo tamanho do kernel
+                for j in range(3):
+                    for i in range(3):
+                        # Obtém o valor do pixel na vizinhança
+                        pixel_vizinho = self.get_pixel(x+i + (-1), y+j + (-1))
+                        valor_pixel_kx = pixel_vizinho * kernel_kx[j][i]
+                        soma_kx += valor_pixel_kx
+                        valor_pixel_ky = pixel_vizinho * kernel_ky[j][i]
+                        soma_ky += valor_pixel_ky
+                
+                resultado = math.sqrt(soma_kx ** 2 + soma_ky ** 2)
+                
+                resultado = max(0, min(255, round(resultado)))
+                
+                imagem_borda.set_pixel(x, y, resultado)
+        
+        return imagem_borda
+
 
     # Abaixo deste ponto estão utilitários para carregar, salvar e mostrar
     # as imagens, bem como para a realização de testes. Você deve ler as funções
