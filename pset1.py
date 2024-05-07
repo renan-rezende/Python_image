@@ -28,11 +28,12 @@ from PIL import Image as PILImage
 
 # Classe Imagem:
 class Imagem:
+    # Função para definir os propriedades da instância 
     def __init__(self, largura, altura, pixels):
         self.largura = largura
         self.altura = altura
         self.pixels = pixels
-    #Kernels de exmplo do arquivo pset1.pdf
+    # Kernels de exmplo do arquivo pset1.pdf
     kernel_translação_a_direita = [
     [0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0],
@@ -54,11 +55,13 @@ class Imagem:
      if x < 0 or x >= self.largura or y < 0 or y >= self.altura: 
         return 0
      return self.pixels[y * self.largura + x]
-
+ 
+    # Alteração na forma de se obter dos Valores das coordenadas do pixel.
+    # (Estamos lidando com arrays unidimencionais e não "2D")
     def set_pixel(self, x, y, c):
      self.pixels[y * self.largura + x] = c
 
-
+    
     def aplicar_por_pixel(self, func):
      resultado = Imagem.nova(self.largura, self.altura)
      for x in range(resultado.largura):

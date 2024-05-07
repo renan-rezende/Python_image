@@ -68,9 +68,9 @@ class TestInvertida(unittest.TestCase):
         
     def test_invertida_2(self):
     # Escreva aqui o seu caso de teste
-     im = pset1.Imagem.carregar('test_images/tree.png')
+     im = pset1.Imagem.carregar('test_images/bluegill.png')
      resultado = im.invertida()
-     resultado.salvar("tree_Invertido.png", modo="PNG")
+     resultado.salvar("bluegill_Invertido.png", modo="PNG")
 
 
     def test_imagens_invertidas(self):
