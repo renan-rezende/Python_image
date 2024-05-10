@@ -20,7 +20,7 @@
 
 # Imports
 import os
-import pset1
+import pset1 
 import unittest
 
 # Diretório
@@ -68,6 +68,8 @@ class TestInvertida(unittest.TestCase):
         
     def test_invertida_2(self):
     # Escreva aqui o seu caso de teste
+    
+    #
      im = pset1.Imagem.carregar('test_images/bluegill.png')
      resultado = im.invertida()
      resultado.salvar("bluegill_Invertido.png", modo="PNG")

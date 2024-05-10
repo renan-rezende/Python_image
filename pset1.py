@@ -61,7 +61,7 @@ class Imagem:
     def set_pixel(self, x, y, c):
      self.pixels[y * self.largura + x] = c
 
-    
+    # função para inverter a imagem (pixel por pixel)
     def aplicar_por_pixel(self, func):
      resultado = Imagem.nova(self.largura, self.altura)
      for x in range(resultado.largura):
@@ -71,13 +71,15 @@ class Imagem:
              resultado.set_pixel(x, y, nova_cor)
      return resultado
 
-
+    # Chama a função de inverter os pixels 
     def invertida(self):
         return self.aplicar_por_pixel(lambda c: 255 - c)
-
+    
+    # Função para borrar uma imagem recebendo o tamanho do Kernel como parâmetro
+    # Quanto maior o Kernel, mais borrada fica a imagem
     def borrada(self,tamanho_kernel):
         
-     #Kernel 3x3
+     #Kernel 7x7
      """ kernel_borrar = [
      [1, 1, 1, 1, 1, 1, 1],
      [1, 1, 1, 1, 1, 1, 1],
@@ -113,7 +115,7 @@ class Imagem:
     
      return resultado
     
-    #Função para dar nitidez a uma imagem utilizando um Kernel 3x3
+    #Função para dar nitidez a uma imagem utilizando um Kernel específico 3x3
     def focada_kernel_3x3(self):
      kernel_nitidez = [
                        [-1, -1, -1],
@@ -187,10 +189,11 @@ class Imagem:
                         valor_pixel_ky = pixel_vizinho * kernel_ky[j][i]
                         soma_ky += valor_pixel_ky
                 
+                # Faz a operação 
                 resultado = math.sqrt(soma_kx ** 2 + soma_ky ** 2)
-                
+                # Verifica se esta dentro dos limites, e arredonda
                 resultado = max(0, min(255, round(resultado)))
-                
+                # "seta" o pixel na imagem de retorno
                 imagem_borda.set_pixel(x, y, resultado)
         
         return imagem_borda
